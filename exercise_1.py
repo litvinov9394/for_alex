@@ -6,13 +6,14 @@ import json
 from datetime import datetime
 pd.options.display.max_rows = 100
 
+# подключение
 response = requests.post('http://84.201.129.203:4545/get_structure_course')
 if response.status_code != 200:
     print(f'Response status_code: {response.status_code}')
 else:
     print(f'Response status_code: {response.status_code}')
 
-    # редко, но иногда вылетает ошибка JSONDecodeError, по причине пустого ответа json или "битого"
+    # редко, но иногда вылетает ошибка JSONDecodeError, по причине пустого ответа от сервера или "битого" json
     response_json = response.json()
 
     # JSON в Pandas
@@ -42,7 +43,7 @@ else:
             for row_children in range(len(table_pandas_new[row]['children'])):
                 # индефикатор записаный в children в данном курсе
                 children = table_pandas_new[row]['children'][row_children]
-                # ищем полную информацию по индефикатору о children в JSON и записываем в DateFrame Children
+                # записываем полную информацию по индефикатору о children в DateFrame Children
                 children_kurs = children_kurs.append([{'number_kursa': f'{row}', 'display_name': f'{table_pandas["blocks"][children]["display_name"].strip()}', 'block_id': f'{table_pandas["blocks"][children]["block_id"]}'}])
         except KeyError:
             pass
@@ -70,11 +71,11 @@ else:
         for row_children in range(len(children.index)):
             kurs_bd = kurs_bd.append([{'display_name': f'{children.iloc[row_children]["display_name"]}', 'block_id': f'{children.iloc[row_children]["block_id"]}'}])
 
-    # последнее время обновления данных
+    # записываем последнее время обновления данных
     last_update_date = datetime.strftime(datetime.now(), "%H:%M %d.%m.%Y")
     kurs_bd = kurs_bd.append([{'display_name':'ВРЕМЯ ОБНОВЛЕНИЯ ДАННЫХ:', 'block_id': f'{last_update_date}'}])
 
-    # выводим курсы с их children - 50 шт
+    # выводим курсы с их children (50 шт)
     print(kurs_bd.head(50))
 
     # сохраняем для записи в базу для задания 2
