@@ -74,8 +74,10 @@ else:
     # записываем последнее время обновления данных
     last_update_date = datetime.strftime(datetime.now(), "%H:%M %d.%m.%Y")
     kurs_bd = kurs_bd.append([{'display_name':'ВРЕМЯ ОБНОВЛЕНИЯ ДАННЫХ:', 'block_id': f'{last_update_date}'}])
+    kurs_bd = kurs_bd.reset_index()
+    kurs_bd = kurs_bd.drop(['index'], axis='columns')
 
-    # выводим курсы с их children (50 шт)
+    # выводим курсы с их children (показать 50 шт)
     print(kurs_bd.head(50))
 
     # сохраняем для записи в базу для задания 2

@@ -2,10 +2,11 @@
 
 import pandas as pd
 from sqlalchemy import create_engine
+import pymysql
 
 # Подключаемся к базе данных
 try:
-    connect = create_engine('postgres://gdpnholffmuoje:58f39f2f092ceee47d64b9203b6a561bb780958ce44673032c9de6aa1aad4951@ec2-46-137-156-205.eu-west-1.compute.amazonaws.com:5432/d8i67gibqaftom')
+    connect = create_engine('mysql+pymysql://user2:qtybcgt++H6@84.201.129.203:32769/test')
 except:
     print("Нет подключения")
 else:
